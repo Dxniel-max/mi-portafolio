@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniel Bonifacio — Desarrollador de Software | SENATI</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B0F14'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='26' font-weight='bold' fill='%232FE58B' text-anchor='middle'%3EDB%3C/text%3E%3C/svg%3E">
+
+  <!-- Tema inicial: se aplica ANTES de pintar la página para evitar parpadeo -->
+  <script>
+    (function () {
+      var t = 'dark';
+      try {
+        t = localStorage.getItem('tema') ||
+            (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Sora:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+  <!-- Iconos SVG reutilizables -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-sol" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></symbol>
+    <symbol id="i-luna" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-cerrar" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-flecha" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></g></symbol>
+    <symbol id="i-arriba" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></g></symbol>
+    <symbol id="i-enviar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></g></symbol>
+    <symbol id="i-correo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></g></symbol>
+    <symbol id="i-telefono" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-ubicacion" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></g></symbol>
+    <symbol id="i-codigo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/></g></symbol>
+    <symbol id="i-carrito" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></g></symbol>
+    <symbol id="i-servidor" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></g></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></symbol>
+  </svg>
+
+  <div class="progreso-scroll" id="barra-progreso"></div>
+
+  <!-- Navegación fija -->
+  <header class="nav" id="navbar">
+    <div class="container nav-inner">
+      <a href="#inicio" class="logo">DB<span class="logo-caret">_</span></a>
+      <nav aria-label="Navegación principal">
+        <ul class="nav-enlaces">
+          <li><a class="nav-enlace" href="#sobre-mi"><span class="num">01</span>Sobre mí</a></li>
+          <li><a class="nav-enlace" href="#proyectos"><span class="num">02</span>Proyectos</a></li>
+          <li><a class="nav-enlace" href="#habilidades"><span class="num">03</span>Habilidades</a></li>
+          <li><a class="nav-enlace" href="#contacto"><span class="num">04</span>Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="nav-acciones">
+        <button class="theme-toggle" id="btn-tema" aria-label="Cambiar entre modo claro y oscuro">
+          <svg class="icon icon-sol"><use href="#i-sol"/></svg>
+          <svg class="icon icon-luna"><use href="#i-luna"/></svg>
+        </button>
+        <button class="menu-btn" id="btn-menu" aria-label="Abrir o cerrar el menú">
+          <svg class="icon icon-menu"><use href="#i-menu"/></svg>
+          <svg class="icon icon-cerrar"><use href="#i-cerrar"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="menu-movil" id="menu-movil" aria-label="Navegación móvil">
+    <div class="container">
+      <a class="menu-movil-enlace" href="#sobre-mi">Sobre mí</a>
+      <a class="menu-movil-enlace" href="#proyectos">Proyectos</a>
+      <a class="menu-movil-enlace" href="#habilidades">Habilidades</a>
+      <a class="menu-movil-enlace" href="#contacto">Contacto</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="inicio" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-texto">
+          <p class="hero-kicker anim d1">// Hola mundo, mi nombre es</p>
+          <h1 class="hero-titulo">
+            <span class="linea"><span class="linea-inner d1">Daniel</span></span>
+            <span class="linea"><span class="linea-inner d2 acento">Bonifacio</span></span>
+          </h1>
+          <p class="hero-rol anim d3">Soy <span id="typed"></span><span class="typed-cursor" aria-hidden="true"></span></p>
+          <p class="hero-desc anim d3">
+            Estudiante de <strong>Desarrollo de Software en SENATI</strong>. Construyo
+            sistemas y aplicaciones web con código limpio, listo para llevarlo a proyectos reales.
+          </p>
+          <div class="hero-acciones anim d4">
+            <a href="#proyectos" class="btn btn-primario">Ver proyectos <svg class="icon"><use href="#i-flecha"/></svg></a>
+            <a href="#contacto" class="btn btn-fantasma">Contactarme</a>
+          </div>
+        </div>
+
+        <!-- Tarjeta de código con mis datos -->
+        <div class="hero-visual anim d3">
+          <div class="codigo-flotante">
+            <div class="codigo-card" id="codigo-card" aria-hidden="true">
+              <div class="codigo-barra">
+                <span class="dot rojo"></span><span class="dot amarillo"></span><span class="dot verde"></span>
+                <span class="codigo-titulo">daniel.js</span>
+              </div>
+              <div class="codigo-cuerpo">
+                <div class="codigo-linea" style="--i:1"><span class="tk-cmt">// Sobre mí, en mi lenguaje favorito</span></div>
+                <div class="codigo-linea" style="--i:2"><span class="tk-kw">const</span> <span class="tk-var">daniel</span> = {</div>
+                <div class="codigo-linea" style="--i:3">&nbsp;&nbsp;rol: <span class="tk-str">"Desarrollador de Software"</span>,</div>
+                <div class="codigo-linea" style="--i:4">&nbsp;&nbsp;academia: <span class="tk-str">"SENATI"</span>,</div>
+                <div class="codigo-linea" style="--i:5">&nbsp;&nbsp;stack: [<span class="tk-str">"Java"</span>, <span class="tk-str">"Python"</span>, <span class="tk-str">"JS"</span>],</div>
+                <div class="codigo-linea" style="--i:6">&nbsp;&nbsp;base: <span class="tk-str">"Huaraz, Perú"</span>,</div>
+                <div class="codigo-linea" style="--i:7">&nbsp;&nbsp;disponible: <span class="tk-bool">true</span></div>
+                <div class="codigo-linea" style="--i:8">};</div>
+                <div class="codigo-linea" style="--i:9"><span class="tk-var">daniel</span>.<span class="tk-prop">saludar</span>();<span class="caret-bloque"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="#sobre-mi" class="scroll-hint" aria-label="Bajar a la siguiente sección"><span>scroll</span><i></i></a>
+    </section>
+
+    <!-- Cinta de tecnologías -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-grupo"><span>Java</span><b>*</b><span>JavaScript</span><b>*</b><span>Python</span><b>*</b><span>HTML5</span><b>*</b><span>CSS3</span><b>*</b><span>MySQL</span><b>*</b><span>Git</span><b>*</b><span>Bootstrap</span><b>*</b></div>
+        <div class="marquee-grupo"><span>Java</span><b>*</b><span>JavaScript</span><b>*</b><span>Python</span><b>*</b><span>HTML5</span><b>*</b><span>CSS3</span><b>*</b><span>MySQL</span><b>*</b><span>Git</span><b>*</b><span>Bootstrap</span><b>*</b></div>
+      </div>
+    </div>
+
+    <!-- SOBRE MÍ -->
+    <section id="sobre-mi" class="seccion">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">~/sobre-mi</span>
+          <h2>Detrás del <em>teclado</em></h2>
+        </div>
+        <div class="sobre-grid">
+          <figure class="foto-marco reveal">
+            <img src="https://st.depositphotos.com/2251265/2417/i/450/depositphotos_24172293-stock-photo-faceless-person-portrait.jpg" alt="Fotografía de Daniel Bonifacio" width="640" height="760">
+            <figcaption class="foto-etiqueta"><span class="punto"></span> Buscando prácticas pre-profesionales</figcaption>
+          </figure>
+          <div class="sobre-contenido">
+            <p class="sobre-parrafo reveal">
+              Soy estudiante del programa de <strong>Desarrollo de Software en SENATI</strong>.
+              Allí aprendí que un buen programa no solo funciona: también se entiende.
+              Me formo en la lógica de cada sistema y exploro por mi cuenta la web moderna.
+            </p>
+            <p class="sobre-parrafo reveal" style="--d:.1s">
+              Cuando no estoy programando, juego fútbol o desarmo alguna app para
+              entender cómo está hecha por dentro.
+            </p>
+            <ul class="datos">
+              <li class="reveal" style="--d:.15s">
+                <span class="dato-icono"><svg class="icon"><use href="#i-correo"/></svg></span>
+                <div><span class="dato-label">Email</span><a href="mailto:dxnielbonifacio@gmail.com">dxnielbonifacio@gmail.com</a></div>
+              </li>
+              <li class="reveal" style="--d:.25s">
+                <span class="dato-icono"><svg class="icon"><use href="#i-telefono"/></svg></span>
+                <div><span class="dato-label">Teléfono</span><a href="tel:+51920225582">+51 920 225 582</a></div>
+              </li>
+              <li class="reveal" style="--d:.35s">
+                <span class="dato-icono"><svg class="icon"><use href="#i-whatsapp"/></svg></span>
+                <div><span class="dato-label">WhatsApp</span><a href="https://wa.me/51920225582" target="_blank" rel="noopener">Escríbeme directo</a></div>
+              </li>
+              <li class="reveal" style="--d:.45s">
+                <span class="dato-icono"><svg class="icon"><use href="#i-ubicacion"/></svg></span>
+                <div><span class="dato-label">Ubicación</span><span>Huaraz, Perú</span></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROYECTOS -->
+    <section id="proyectos" class="seccion">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">~/proyectos</span>
+          <h2>Proyectos <em>destacados</em></h2>
+        </div>
+        <div class="proyectos-grid">
+          <article class="proyecto reveal">
+            <div class="proyecto-cover">
+              <svg class="cover-icono"><use href="#i-codigo"/></svg>
+              <span class="proyecto-fantasma">01</span>
+            </div>
+            <div class="proyecto-cuerpo">
+              <h3>StockSys — Sistema de Ventas</h3>
+              <p>Aplicación de escritorio para un bazar: productos, kardex, ventas con boleta y reportes. Proyecto final de Java con MySQL.</p>
+              <ul class="tags"><li>Java</li><li>MySQL</li><li>JDBC</li></ul>
+              <div class="proyecto-links">
+                <a href="#" target="_blank" rel="noopener"><svg class="icon"><use href="#i-github"/></svg> Código</a>
+                <a href="#">Detalles <svg class="icon"><use href="#i-flecha"/></svg></a>
+              </div>
+            </div>
+          </article>
+          <article class="proyecto reveal" style="--d:.12s">
+            <div class="proyecto-cover">
+              <svg class="cover-icono"><use href="#i-carrito"/></svg>
+              <span class="proyecto-fantasma">02</span>
+            </div>
+            <div class="proyecto-cuerpo">
+              <h3>Andes Store — Tienda Virtual</h3>
+              <p>Mini e-commerce desde cero: catálogo con filtros y carrito guardado en localStorage. JavaScript puro, sin frameworks.</p>
+              <ul class="tags"><li>HTML5</li><li>CSS3</li><li>JavaScript</li></ul>
+              <div class="proyecto-links">
+                <a href="#" target="_blank" rel="noopener"><svg class="icon"><use href="#i-github"/></svg> Código</a>
+                <a href="#">Demo <svg class="icon"><use href="#i-flecha"/></svg></a>
+              </div>
+            </div>
+          </article>
+          <article class="proyecto reveal" style="--d:.24s">
+            <div class="proyecto-cover">
+              <svg class="cover-icono"><use href="#i-servidor"/></svg>
+              <span class="proyecto-fantasma">03</span>
+            </div>
+            <div class="proyecto-cuerpo">
+              <h3>TaskFlow — API REST de Tareas</h3>
+              <p>API para gestionar tareas con autenticación por token y CRUD completo. Mi primer proyecto backend serio con Python.</p>
+              <ul class="tags"><li>Python</li><li>Flask</li><li>REST</li></ul>
+              <div class="proyecto-links">
+                <a href="#" target="_blank" rel="noopener"><svg class="icon"><use href="#i-github"/></svg> Código</a>
+                <a href="#">Docs <svg class="icon"><use href="#i-flecha"/></svg></a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HABILIDADES -->
+    <section id="habilidades" class="seccion">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">~/habilidades</span>
+          <h2>Mi <em>stack</em> técnico</h2>
+        </div>
+        <div class="habilidades-grid">
+          <div class="habilidades-intro">
+            <p class="sobre-parrafo reveal">
+              Me muevo entre el <strong>backend con Java y Python</strong> y el
+              <strong>frontend con HTML, CSS y JavaScript</strong>. En SENATI afiancé la
+              lógica y las bases de datos; con proyectos propios puse todo a prueba.
+            </p>
+            <div class="stats reveal" style="--d:.1s">
+              <div class="stat"><span class="stat-num"><span data-contador="10">0</span>+</span><span class="stat-label">Proyectos</span></div>
+              <div class="stat"><span class="stat-num"><span data-contador="6">0</span></span><span class="stat-label">Tecnologías</span></div>
+              <div class="stat"><span class="stat-num"><span data-contador="500">0</span>+</span><span class="stat-label">Horas de código</span></div>
+            </div>
+            <p class="chips-titulo reveal" style="--d:.15s">También manejo</p>
+            <ul class="tags chips reveal" style="--d:.2s">
+              <li>Bootstrap</li><li>Node.js</li><li>Figma</li><li>Scrum</li><li>Git</li>
+            </ul>
+          </div>
+          <div class="habilidades-barras" id="habilidades-barras">
+            <div class="skill reveal" data-level="92">
+              <div class="skill-cab"><span>HTML &amp; CSS</span><span class="skill-num">80%</span></div>
+              <div class="skill-track"><div class="skill-fill"></div></div>
+            </div>
+            <div class="skill reveal" data-level="85" style="--d:.07s">
+              <div class="skill-cab"><span>JavaScript</span><span class="skill-num">40%</span></div>
+              <div class="skill-track"><div class="skill-fill"></div></div>
+            </div>
+            <div class="skill reveal" data-level="82" style="--d:.14s">
+              <div class="skill-cab"><span>Java</span><span class="skill-num">50%</span></div>
+              <div class="skill-track"><div class="skill-fill"></div></div>
+            </div>
+            <div class="skill reveal" data-level="80" style="--d:.21s">
+              <div class="skill-cab"><span>MySQL</span><span class="skill-num">40%</span></div>
+              <div class="skill-track"><div class="skill-fill"></div></div>
+            </div>
+            <div class="skill reveal" data-level="76" style="--d:.28s">
+              <div class="skill-cab"><span>Python</span><span class="skill-num">50%</span></div>
+              <div class="skill-track"><div class="skill-fill"></div></div>
+            </div>
+            <div class="skill reveal" data-level="72" style="--d:.35s">
+              <div class="skill-cab"><span>Git &amp; GitHub</span><span class="skill-num">0%</span></div>
+              <div class="skill-track"><div class="skill-fill"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="seccion">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">~/contacto</span>
+          <h2>¿Trabajamos <em>juntos</em>?</h2>
+        </div>
+        <div class="contacto-grid">
+          <div class="contacto-info reveal">
+            <p class="sobre-parrafo">¿Proyecto, oferta de prácticas o solo saludar? Escríbeme por el canal que prefieras: respondo rápido.</p>
+            <ul class="datos">
+              <li>
+                <span class="dato-icono"><svg class="icon"><use href="#i-correo"/></svg></span>
+                <div><span class="dato-label">Email</span><a href="mailto:dxnielbonifacio@gmail.com">dxnielbonifacio@gmail.com</a></div>
+              </li>
+              <li>
+                <span class="dato-icono"><svg class="icon"><use href="#i-whatsapp"/></svg></span>
+                <div><span class="dato-label">WhatsApp</span><a href="https://wa.me/51920225582" target="_blank" rel="noopener">+51 920 225 582</a></div>
+              </li>
+            </ul>
+          </div>
+          <div class="contacto-form-wrap reveal" style="--d:.1s">
+            <form id="form-contacto" novalidate>
+              <div class="campo-fila">
+                <div class="campo">
+                  <label for="nombre">Nombre *</label>
+                  <input type="text" id="nombre" name="nombre" placeholder="¿Cómo te llamas?" autocomplete="name">
+                  <small class="error-msg" aria-live="polite"></small>
+                </div>
+                <div class="campo">
+                  <label for="email">Email *</label>
+                  <input type="email" id="email" name="email" placeholder="tu@correo.com" autocomplete="email">
+                  <small class="error-msg" aria-live="polite"></small>
+                </div>
+              </div>
+              <div class="campo">
+                <label for="asunto">Asunto</label>
+                <input type="text" id="asunto" name="asunto" placeholder="Prácticas, proyecto, consulta…">
+                <small class="error-msg" aria-live="polite"></small>
+              </div>
+              <div class="campo">
+                <label for="mensaje">Mensaje *</label>
+                <textarea id="mensaje" name="mensaje" placeholder="Cuéntame en qué puedo ayudarte…"></textarea>
+                <small class="error-msg" aria-live="polite"></small>
+              </div>
+              <button type="submit" class="btn btn-primario" id="btn-enviar">
+                <span class="btn-texto">Enviar mensaje</span>
+                <svg class="icon btn-icono"><use href="#i-enviar"/></svg>
+                <span class="spinner" aria-hidden="true"></span>
+              </button>
+            </form>
+            <div class="form-exito" id="form-exito" hidden>
+              <svg class="check" viewBox="0 0 52 52" aria-hidden="true">
+                <circle class="check-circulo" cx="26" cy="26" r="24"/>
+                <path class="check-marca" d="M14 27l8 8 16-16"/>
+              </svg>
+              <h3>¡Mensaje enviado!</h3>
+              <p>Gracias por escribir. Te responderé muy pronto.</p>
+              <button class="btn btn-fantasma" id="btn-otro" type="button">Enviar otro mensaje</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="#inicio" class="logo">DB<span class="logo-caret">_</span></a>
+        <p class="footer-claim">Programando desde Huaraz, Perú.</p>
+      </div>
+      <nav class="social" aria-label="Redes sociales">
+        <a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub"><svg><use href="#i-github"/></svg></a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn"><svg><use href="#i-linkedin"/></svg></a>
+        <a href="https://wa.me/51920225582" target="_blank" rel="noopener" aria-label="WhatsApp"><svg><use href="#i-whatsapp"/></svg></a>
+        <a href="mailto:dxnielbonifacio@gmail.com" aria-label="Correo"><svg><use href="#i-correo"/></svg></a>
+      </nav>
+    </div>
+    <div class="container footer-bottom">
+      <p>© <span id="anio"></span> Daniel Bonifacio — Hecho con HTML, CSS y JavaScript puro.</p>
+      <a href="#inicio" class="subir" aria-label="Volver arriba"><svg class="icon"><use href="#i-arriba"/></svg></a>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
